@@ -1,0 +1,4 @@
+networkx>=2.1
+regex
+graphviz>=0.8.4
+pydot>=1.2.4
