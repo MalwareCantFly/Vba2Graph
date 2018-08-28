@@ -430,6 +430,29 @@ def vba_clean_metadata(vba_content_lines):
     return result_vba_lines
 
 
+def vba_deobfuscation(vba_content_lines):
+    """Solves simple obfuscation techniques
+
+    Args:
+        vba_content_lines (string[]): VBA code lines without comments, metadata or spaces
+
+    Returns:
+        string[]: clean VBA code lines with less obfuscation
+    """
+    result_vba_lines = []
+
+    # process lines one by one
+    for vba_line in vba_content_lines:
+        # Technique #1
+        # solve simple string concatenation
+        # "Wsc" & "ript" would become "Wscript"
+        # Reference maldoc: d050a5b4d8a990951c8a9310ed700dd6
+        vba_line = vba_line.replace('" & "', "")
+        result_vba_lines.append(vba_line)
+
+    return result_vba_lines
+
+
 def vba_extract_functions(vba_content_lines):
     """Seperates the input VBA code into functions
     
@@ -868,7 +891,8 @@ def main():
     vba_content_lines_no_whitespace = vba_clean_whitespace(vba_content_lines)
     vba_content_lines_no_metadata = vba_clean_metadata(
         vba_content_lines_no_whitespace)
-    vba_func_dict = vba_extract_functions(vba_content_lines_no_metadata)
+    vba_content_deobfuscated = vba_deobfuscation(vba_content_lines_no_metadata)
+    vba_func_dict = vba_extract_functions(vba_content_deobfuscated)
     vba_prop_dict = vba_extract_properties(vba_content_lines_no_metadata)
 
     # treat properties like functions and merge both dictionaries
