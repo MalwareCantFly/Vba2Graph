@@ -1,5 +1,7 @@
-bash -c "rm olevba_output/*"
-bash -c "rm -rf output/*"
+rm -rf olevba_output
+rm -rf output
+
+mkdir olevba_output
 
 for file in input/*; do
 	echo "olevba $file"
