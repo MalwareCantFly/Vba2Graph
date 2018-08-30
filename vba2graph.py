@@ -666,15 +666,17 @@ def create_call_graph(vba_func_dict):
                 func_name1 = func_name1[:space_pos]
 
             for i in range(0, func_code_tokens.count(func_name1)):
-                # found a function call
-                if orig_func_name not in DG[func_name]:
-                    DG.add_edge(func_name, orig_func_name, count=1)
-                else:
-                    new_count = DG[func_name][orig_func_name]["count"] + 1
-                    DG[func_name][orig_func_name]["count"] = new_count
-                    DG[func_name][orig_func_name]["label"] = "x" + str(new_count)
-                    if new_count >= color_scheme["COUNT_CRITICAL_NUM_OF_CALLS"]:
-                        DG[func_name][orig_func_name]["fontcolor"] = color_scheme["COLOR_CRITICAL_NUM_OF_CALLS"]
+                # ignore self-edges
+                if func_name != func_name1:
+                    # found a function call
+                    if orig_func_name not in DG[func_name]:
+                        DG.add_edge(func_name, orig_func_name, count=1)
+                    else:
+                        new_count = DG[func_name][orig_func_name]["count"] + 1
+                        DG[func_name][orig_func_name]["count"] = new_count
+                        DG[func_name][orig_func_name]["label"] = "x" + str(new_count)
+                        if new_count >= color_scheme["COUNT_CRITICAL_NUM_OF_CALLS"]:
+                            DG[func_name][orig_func_name]["fontcolor"] = color_scheme["COLOR_CRITICAL_NUM_OF_CALLS"]
     return DG
 
 
