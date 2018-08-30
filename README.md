@@ -46,7 +46,7 @@ https://github.com/decalage2/oletools/wiki/Install
 ### Install Python Requirements
 
 ```bash
-pip install -r requirements.txt
+pip2 install -r requirements.txt
 ```
 
 ### Install Graphviz
@@ -78,10 +78,12 @@ sudo pacman -S graphviz
 ```
 
 ### Usage (All Platforms)
-```bash
-olevba malicious.doc | python vba2graph.py -c 1
 
-python vba2graph.py -i olevba_output.bas -o output_folder
+Only Python 2 is supported:
+```bash
+olevba malicious.doc | python2 vba2graph.py -c 1
+
+python2 vba2graph.py -i olevba_output.bas -o output_folder
 ```
 ### Output
 You'll get 3 folders in your output folder:
