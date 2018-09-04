@@ -906,7 +906,6 @@ def vba2graph_gen(input_vba_content, output_folder="output", input_file_name="vb
     ############################################
 
     bas_folder = output_folder + os.sep + "bas"
-    logger.info(bas_folder)
     try:
         os.makedirs(bas_folder)
     except OSError as exc:
