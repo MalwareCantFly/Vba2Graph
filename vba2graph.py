@@ -334,7 +334,7 @@ def handle_olevba_input(file_content):
     input_vba_content = ""
     inside_data = False
     inside_code = False
-    logger.info("Reading as olevba file")
+    logger.info("Parsing olevba content")
 
     content_lines = file_content.split(LINE_SEP)
 
@@ -839,6 +839,7 @@ def vba2graph_from_vba_object(filepath):
     Args:
         filepath (string): path to file
     """
+    logger.info("Extracting macros from file")
     if HAVE_OLETOOLS:
         try:
             vba = VBA_Parser(filepath)
