@@ -1002,7 +1002,7 @@ def main():
                 input_vba_content = handle_input(file_path, is_piped=False)
             else:
                 input_vba_content = vba2graph_from_vba_object(file_path)
-                print(input_vba_content)
+
         # handle wrong input
         else:
             logger.error("Invalid input path")
