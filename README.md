@@ -77,18 +77,41 @@ sudo apt-get install graphviz
 sudo pacman -S graphviz
 ```
 
-### Usage (All Platforms)
+### Usage
 
+```bash
+usage: vba2graph.py [-h] [-o OUTPUT] [-c {0,1,2,3}] (-i INPUT | -f FILE)
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -o OUTPUT, --output OUTPUT
+                        output folder (default: "output")
+  -c {0,1,2,3}, --colors {0,1,2,3}
+                        color scheme number [0, 1, 2, 3] (default: 0 - B&W)
+  -i INPUT, --input INPUT
+                        olevba generated file or .bas file
+  -f FILE, --file FILE  Office file with macros
+
+```
+### Usage Examples (All Platforms)
 Only Python 2 is supported:
 ```bash
+# Generate call graph directly from an Office file with macros [tnx @doomedraven]
+python2 vba2graph.py -f malicious.doc -c 2    
+
+# Generate vba code using olevba then pipe it to vba2graph
 olevba malicious.doc | python2 vba2graph.py -c 1
 
-python2 vba2graph.py -i olevba_output.bas -o output_folder
+# Generate call graph from VBA code
+python2 vba2graph.py -i vba_code.bas -o output_folder
+
 ```
+
 ### Output
-You'll get 3 folders in your output folder:
+You'll get 4 folders in your output folder:
 
 - **png:** the actual graph image you are looking for
+- **svg:** same graph image, just in vector graphics
 - **dot:** the dot file which was used to create the graph image
 - **bas:** the VBA functions code that was recognized by the script (for debugging)
 
