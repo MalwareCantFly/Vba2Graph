@@ -7,6 +7,7 @@ This script creates fancy VBA call graphs from olevba output.
 
 Run Examples:
     $ python vba2graph.py -i [your_olevba_output] -o [output_dir]
+    $ python vba2graph.py -f [office_file_with_macro] -o [output_dir]
     $ olevba [malicous_doc_with_macro] | python vba2graph.py
 
 Dependencies:
@@ -849,9 +850,8 @@ def vba2graph_from_vba_object(filepath):
         full_vba_code += '- '*39 + '\n'
         full_vba_code += vba_code
     vba.close()
-
-    if vba_code:
-        input_vba_content = handle_olevba_input(vba_code)
+    if full_vba_code:
+        input_vba_content = handle_olevba_input(full_vba_code)
         return input_vba_content
 
     return False
@@ -956,6 +956,7 @@ def main():
     global color_scheme
     # set default output folder
     output_folder = "output"
+    input_file_name = "vba2graph"
 
     # ****************************************************************************
     # *                              Argument Parser                             *
@@ -982,21 +983,32 @@ def main():
 
     else:
         ap.add_argument(
-            "-i", "--input", required=False, help="olevba generated file or .bas file")
+            "-i", "--input", required=False, default=False, help="olevba generated file or .bas file")
+        ap.add_argument(
+            "-f", "--file", required=False, default=False, help="Office file with macros")
 
         cmd_args = vars(ap.parse_args())
 
-        input_path = cmd_args["input"]
-        input_file_name = os.path.basename(input_path)
+        macro_file = False
+        if cmd_args.get("input", False):
+            file_path = cmd_args.get("input", False)
+        elif cmd_args.get("file", False):
+            file_path = cmd_args.get("file", False)
+            macro_file = True
 
         # handle files
-        if os.path.isfile(input_path):
-            input_vba_content = handle_input(input_path, is_piped=False)
-
+        if os.path.isfile(file_path):
+            if macro_file is False:
+                input_vba_content = handle_input(file_path, is_piped=False)
+            else:
+                input_vba_content = vba2graph_from_vba_object(file_path)
+                print(input_vba_content)
         # handle wrong input
         else:
             logger.error("Invalid input path")
             sys.exit(1)
+
+        input_file_name = os.path.basename(file_path)
 
     # set selected color scheme
     selected_color_scheme = cmd_args["colors"]
