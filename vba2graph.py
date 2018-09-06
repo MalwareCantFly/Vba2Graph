@@ -983,9 +983,10 @@ def main():
         cmd_args = vars(ap.parse_args())
 
     else:
-        ap.add_argument(
+        input_group = ap.add_mutually_exclusive_group(required=True)
+        input_group.add_argument(
             "-i", "--input", required=False, default=False, help="olevba generated file or .bas file")
-        ap.add_argument(
+        input_group.add_argument(
             "-f", "--file", required=False, default=False, help="Office file with macros")
 
         cmd_args = vars(ap.parse_args())
