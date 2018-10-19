@@ -30,6 +30,7 @@ import sys
 import errno
 import argparse
 import regex as re
+import StringIO
 from subprocess import Popen
 
 # ****************************************************************************
@@ -829,9 +830,54 @@ def design_graph_dot(DG):
     return DG
 
 
-# ****************************************************************************
-# *                               Main Function                              *
-# ****************************************************************************
+def fix_dot_output(str_dot):
+    """ Make changes to NX write_dot output
+    Args:
+        str_dot (string): output of NX write_dot function
+    """
+
+    # change function names that collide with protected DOT keywords
+    # reference: https://www.graphviz.org/doc/info/lang.html
+    dot_keywords = ["node", "edge", "graph", "digraph", "subgraph", "strict"]
+
+    str_dot_lines = str_dot.split("\n")
+
+    new_str_dot = ""
+    # iterate over all the dot file lines and change function names which
+    # are reserved DOT keywords
+    for cur_line in str_dot_lines:
+        new_str_dot_line = cur_line
+
+        pass_line = False
+        # check if we are in the first disgraph declaration line
+        # example: strict digraph  {
+        if "strict digraph" in cur_line:
+            pass_line = True
+
+        # check if we are in a graph declaration line
+        # example: graph [bgcolor="#6075AF"];
+        if "bgcolor=" in cur_line:
+            pass_line = True
+
+        # check if we are in a generic edge declaration line
+        # example: edge [color=white, fontcolor=white];
+        if "edge" in cur_line and "keywords" not in cur_line and "count" not in cur_line:
+            pass_line = True
+
+        # if we are not in a reserved keyword line, and
+        # if we find a reserved keyword in cur line -> add underscore to this function name
+        if not pass_line:
+            for dot_keyword in dot_keywords:
+                re_result = re.search("(?i)" + dot_keyword + " ", cur_line)
+                if re_result:
+                    found_keyword_with_space = re_result.group()
+                    found_keyword = found_keyword_with_space[:-1]
+                    replace_keyword_with = found_keyword + "_" + " "
+                    new_str_dot_line = new_str_dot_line.replace(found_keyword_with_space, replace_keyword_with)
+
+        new_str_dot += new_str_dot_line + "\n"
+
+    return new_str_dot
 
 
 def vba2graph_from_vba_object(filepath):
@@ -925,7 +971,18 @@ def vba2graph_gen(input_vba_content, output_folder="output", input_file_name="vb
         if exc.errno != errno.EEXIST:
             logger.error("Error creating DOT output folder")
     dot_output_path = dot_folder + os.sep + input_file_name + '.dot'
-    write_dot(DG, dot_output_path)
+
+    # redirect NetworkX write_dot output to StringIO for further manipulation
+    str_io_dot = StringIO.StringIO()
+    write_dot(DG, str_io_dot)
+    str_dot = str_io_dot.getvalue()
+    str_io_dot.close()
+
+    # check if our DOT file is broken (one of the funciton names was reserved keyword)
+    str_dot = fix_dot_output(str_dot)
+
+    with open(dot_output_path, 'w') as the_file:
+        the_file.write(str_dot)
 
     ##############################
     # Generate PNG file from DOT #
