@@ -156,7 +156,12 @@ lst_autorun = [
     'App_WorkbookOpen', 'App_NewWorkbook', 'App_WorkbookBeforeClose', 'Workbook_BeforeClose',
     'FileSave', 'CloseWithoutSaving', 'FileOpen', 'FileClose', 'FileExit',
     'Workbook_SheetSelectionChange', 'Workbook_BeforeSave', 'FileTemplates',
-    'ViewVBCode', 'ToolsMacro', 'FormatStyle', 'OpenMyMacro', 'HelpAbout'
+    'ViewVBCode', 'ToolsMacro', 'FormatStyle', 'OpenMyMacro', 'HelpAbout',
+    u'\w+_Layout', u'\w+_Painting',
+    u'\w+_BeforeNavigate2', u'\w+_BeforeScriptExecute', u'\w+_DocumentComplete', u'\w+_DownloadBegin',
+    u'\w+_DownloadComplete', u'\w+_FileDownload', u'\w+_NavigateComplete2', u'\w+_NavigateError',
+    u'\w+_ProgressChange', u'\w+_PropertyChange', u'\w+_PropertyChange', u'\w+_StatusTextChange',
+    u'\w+_TitleChange', u'\w+_MouseMove', u'\w+_MouseEnter', u'\w+_MouseLeave'
 ]
 
 # Recognize keywords of possible malicious intent
@@ -657,7 +662,7 @@ def create_call_graph(vba_func_dict):
 
         func_code = vba_func_dict[func_name]
         # split function code into tokens
-        func_code_tokens = filter(None, re.split('[\"(, \-!?:\r\n)&=.]+',
+        func_code_tokens = filter(None, re.split('[\"(, \-!?:\r\n)&=.><]+',
                                                  func_code))
         # inside each function's code, we are looking for a function name
         for func_name1 in vba_func_dict:
