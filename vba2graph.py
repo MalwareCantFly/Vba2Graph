@@ -166,23 +166,23 @@ lst_autorun = [
 
 # Recognize keywords of possible malicious intent
 lst_mal_case_sensetive = [
-    "Environ", "Open", 'Write', 'Put', 'Output', 'Print #', 'Binary', 'FileCopy',
+    "Open", 'Write', 'Put', 'Output', 'Print #', 'Binary', 'FileCopy',
     'CopyFile', 'Kill', 'CreateTextFile', 'ADODB.Stream', 'WriteText',
-    'SaveToFile', 'Shell', 'vbNormal', 'vbNormalFocus', 'vbHide',
+    'SaveToFile', 'vbNormal', 'vbNormalFocus', 'vbHide',
     'vbMinimizedFocus', 'vbMaximizedFocus', 'vbNormalNoFocus',
-    'vbMinimizedNoFocus', 'WScript.Shell', u'\w+\.Run', 'ShellExecute', 'MacScript',
+    'vbMinimizedNoFocus', u'\w+\.Run', 'MacScript',
     'popen', r'exec[lv][ep]?', 'noexit',
     'ExecutionPolicy', 'noprofile', 'command', 'EncodedCommand',
     'invoke-command', 'scriptblock', 'Invoke-Expression',
     'AuthorizationManager', 'Start-Process', 'Application\.Visible',
     'ShowWindow', 'SW_HIDE', 'MkDir', 'ActiveWorkbook.SaveAs',
     'Application.AltStartupPath', 'CreateObject', 'New-Object',
-    'Shell\.Application', 'Windows', 'FindWindow', 'libc\.dylib', 'dylib',
+    'Windows', 'FindWindow', 'libc\.dylib', 'dylib',
     'CreateThread', 'VirtualAlloc', 'VirtualAllocEx', 'RtlMoveMemory',
     'EnumSystemLanguageGroupsW?', u'EnumDateFormats(?:W|(?:Ex){1,2})?',
-    'URLDownloadToFileA', 'Msxml2\.XMLHTTP', 'Microsoft\.XMLHTTP', 'User-Agent',
-    'Net\.WebClient', 'DownloadFile', 'DownloadString', 'MSXML2\.ServerXMLHTTP',
-    'SendKeys', 'AppActivate', 'CallByName', 
+    'URLDownloadToFileA',  'User-Agent',
+    'Net\.WebClient', 'DownloadFile', 'DownloadString', 
+    'SendKeys', 'AppActivate', 'CallByName',
     'RegOpenKeyExAs', 'RegOpenKeyEx', 'RegCloseKey',
     'RegQueryValueExA', 'RegQueryValueEx', 'RegRead',
     'GetVolumeInformationA', 'GetVolumeInformation', '1824245000',
@@ -194,21 +194,25 @@ lst_mal_case_sensetive = [
     'VBProject', 'VBComponents', 'CodeModule', 'AddFromString', 'Call', 'GetObject',
     'ExecQuery', 'GetStringValue', 'GetDWORDValue', u'ActiveDocument\.\w+', 'DOMDocument',
     'IXMLDOMElement', 'ComputerName', 'Domain', 'RegRead', 'RegWrite', '#If Mac',
-    'appdata', u'WordBasic\.\w+', 'WriteLine', 'Exec',
+    'appdata', u'WordBasic\.\w+', 'WriteLine',
     'Cells', u'Application\.\w+', 'Sleep', 'Process', u'NormalTemplate\.\w+',
     u'\w+\.Application', 'CommandBars', u'System\.\w+', "setRequestHeader", "Send", "setOption",
     "RecentFiles", "Mozilla", "UserName", "DeleteFile", "Delete", "\.Execute", "\.Content",
-    "MsgBox", "\.Quit",  'Run', 'Now', 'Comments',
-    'CopyFolder', 'http', 'winmgmts', 'bin\.base64', '\.Create'
+    "MsgBox", "\.Quit",  'Run', 'Now', 'Comments', 'PROCESSOR_ARCHITECTURE',
+    'CopyFolder', 'winmgmts', 'bin\.base64', '\.CreateKey', '\.Create',
+    '\.SpawnInstance_', 'Selection\.WholeStory', '\.CreateShortcut', '\.CreateFolder',
+    '\.DynamicInvoke', '\.CreateInstance', '\.MSFConnect', '\.RegisterTaskDefinition',
+    'Shell\.Application|ShellExecute|WScript\.Shell|Shell'
 ]
 
 # Recognize attempts to hide values in form controls and properties
-lst_mal_case_sensetive += [u"\.caption", u"\.text", u"\.value", u"\.ControlTipText", u"\.tag",
-    u"\.CustomDocumentProperties"
+lst_mal_case_sensetive += ["\.caption", "\.text", "\.value", "\.ControlTipText", "\.tag",
+    "\.CustomDocumentProperties"
 ]
 
 lst_obfuscation_keywords = ['Asc', 'Mid', 'Left', 'Right', 'Tan', 'StrReverse', 'Xor',
-    'Chr', 'ChrB', 'ChrW', 'CStr', 'StrConv', 'Replace', 'Int'
+    'ChrB', 'ChrW', 'Chr','CStr', 'StrConv', 'Replace', 'Int', 'Hex', 'Sqr', 'CByte',
+    'Log', 'Rnd'
 ]
 
 lst_mal_case_sensetive += lst_obfuscation_keywords
@@ -217,9 +221,10 @@ lst_mal_case_insensetive = [
     r'SYSTEM\\ControlSet001\\Services\\Disk\\Enum', 'VIRTUAL', 'VMWARE', 'VBOX',
     u'"[\w-_\\/]+\.(?:EXE|PIF|GADGET|MSI|MSP|MSC|VBS|VBE|VB|JSE|JS|WSF|WSC|WSH|WS|BAT|CMD|DLL|SCR|HTA|CPL|CLASS|JAR|PS1XML|PS1|PS2XML|PS2|PSC1|PSC2|SCF|LNK|INF|REG)"',
     'FileSystemObject', 'GetSpecialFolder', 'PowerShell', u'SELECT \* FROM \w+', 'deletefolder',
-    'Environ\(\"ALLUSERSPROFILE\"\)'
+    'regsvr\.32', 'scrobj\.dll', 'cmd\.exe',
+    'Environ\(\"ALLUSERSPROFILE\"\)|Environ\(\"TEMP\"\)|Environ\(\"TMP\"\)|Environ',
+    'Msxml2\.XMLHTTP|Microsoft\.XMLHTTP|MSXML2\.ServerXMLHTTP|microsoft\.xmlhttp|http'
 ]
-
 
 # ****************************************************************************
 # *                             Helper Functions                             *
