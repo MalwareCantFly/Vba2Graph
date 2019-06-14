@@ -994,7 +994,7 @@ def vba2graph_gen(input_vba_content, output_folder="output", input_file_name="vb
     str_dot = fix_dot_output(str_dot)
 
     with open(dot_output_path, 'w') as the_file:
-        the_file.write(str_dot)
+        the_file.write(str_dot.encode("utf-8", errors="ignore"))
 
     ##############################
     # Generate PNG file from DOT #
