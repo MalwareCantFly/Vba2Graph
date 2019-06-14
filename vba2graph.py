@@ -161,7 +161,7 @@ lst_autorun = [
     u'\w+_BeforeNavigate2', u'\w+_BeforeScriptExecute', u'\w+_DocumentComplete', u'\w+_DownloadBegin',
     u'\w+_DownloadComplete', u'\w+_FileDownload', u'\w+_NavigateComplete2', u'\w+_NavigateError',
     u'\w+_ProgressChange', u'\w+_PropertyChange', u'\w+_PropertyChange', u'\w+_StatusTextChange',
-    u'\w+_TitleChange', u'\w+_MouseMove', u'\w+_MouseEnter', u'\w+_MouseLeave'
+    u'\w+_TitleChange', u'\w+_MouseMove', u'\w+_MouseEnter', u'\w+_MouseLeave', u'\w+_Activate'
 ]
 
 # Recognize keywords of possible malicious intent
@@ -202,16 +202,17 @@ lst_mal_case_sensetive = [
     'CopyFolder', 'winmgmts', 'bin\.base64', '\.CreateKey', '\.Create',
     '\.SpawnInstance_', 'Selection\.WholeStory', '\.CreateShortcut', '\.CreateFolder',
     '\.DynamicInvoke', '\.CreateInstance', '\.MSFConnect', '\.RegisterTaskDefinition',
-    'Shell\.Application|ShellExecute|WScript\.Shell|Shell'
+    'Shell\.Application|ShellExecute|WScript\.Shell|Shell', '\.Load', '\.transformNode',
+    'ExecuteExcel4Macro', '.\Show'
 ]
 
 # Recognize attempts to hide values in form controls and properties
 lst_mal_case_sensetive += ["\.caption", "\.text", "\.value", "\.ControlTipText", "\.tag",
-    "\.CustomDocumentProperties"
+    "\.CustomDocumentProperties", "\.AlternativeText"
 ]
 
 lst_obfuscation_keywords = ['Asc', 'Mid', 'Left', 'Right', 'Tan', 'StrReverse', 'Xor',
-    'ChrB', 'ChrW', 'Chr','CStr', 'StrConv', 'Replace', 'Int', 'Hex', 'Sqr', 'CByte',
+    'ChrB', 'ChrW', 'Chr', 'CStr', 'StrConv', 'Replace', 'Int', 'Hex', 'Sqr', 'CByte',
     'Log', 'Rnd'
 ]
 
@@ -597,6 +598,7 @@ def vba_extract_properties(vba_content_lines):
     Returns:
         dict[property_name]=property_code: Dictionary of VBA Properties found
     """
+
     vba_prop_dict = {}
     inside_property = False
     prop_name = ""
