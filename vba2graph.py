@@ -863,7 +863,7 @@ def fix_dot_output(str_dot):
         pass_line = False
         # check if we are in the first disgraph declaration line
         # example: strict digraph  {
-        if "strict digraph" in cur_line:
+        if "digraph  " in cur_line:
             pass_line = True
 
         # check if we are in a graph declaration line
