@@ -41,7 +41,7 @@ import networkx as nx
 from networkx.drawing.nx_pydot import write_dot
 try:
     from oletools.olevba import VBA_Parser
-    # Temporary way around. Change when oletools 0.56 will be released.
+    # Temporary workaround. Change when oletools 0.56 will be released.
     VBA_Parser.detect_vba_stomping = lambda self: False
     HAVE_OLETOOLS = True
 except ImportError:
@@ -907,14 +907,14 @@ def vba2graph_from_vba_object(filepath):
     for (subfilename, stream_path, vba_filename, vba_code) in vba.extract_macros():
         full_vba_code += 'VBA MACRO %s \n' % vba_filename
         full_vba_code += '- '*39 + '\n'
-        # Temporary way around. Change when oletools 0.56 will be released.
-        vba_code = vba_code.decode('utf8', errors='replace')
+        # Temporary workaround. Change when oletools 0.56 will be released.
+        if isinstance(vba_code, bytes):
+            vba_code = vba_code.decode('utf8', errors='replace')
         full_vba_code += vba_code
     vba.close()
     if full_vba_code:
         input_vba_content = handle_olevba_input(full_vba_code)
         return input_vba_content
-
     return False
 
 def vba2graph_gen(input_vba_content, output_folder="output", input_file_name="vba2graph", color_scheme=color_scheme):
