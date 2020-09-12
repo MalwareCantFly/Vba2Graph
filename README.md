@@ -77,7 +77,7 @@ sudo apt-get install graphviz
 sudo pacman -S graphviz
 ```
 
-### Usage
+## Usage
 
 ```bash
 usage: vba2graph.py [-h] [-o OUTPUT] [-c {0,1,2,3}] (-i INPUT | -f FILE)
@@ -121,3 +121,16 @@ You'll get 4 folders in your output folder:
 **batch.sh** script file is attached for running *olevba* and *vba2graph* on an input folder of malicious docs.
 
 Deletes *output* dir. use with caution.
+
+
+## License
+The code in this project is licensed under the [EPL-2.0 License](https://github.com/MalwareCantFly/Vba2Graph/blob/master/LICENSE.txt).
+
+This project is utilizing the following third-party open-source tools and libraries.
+Please note their respective licenses.
+
+- oletools ([License](https://github.com/decalage2/oletools/blob/master/LICENSE.md))
+- networkx ([License](https://github.com/networkx/networkx/blob/master/LICENSE.txt))
+- pydot ([License](https://github.com/pydot/pydot/blob/master/LICENSE))
+- graphviz ([License](https://graphviz.org/license/))
+
