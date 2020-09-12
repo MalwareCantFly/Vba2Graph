@@ -46,15 +46,15 @@ https://github.com/decalage2/oletools/wiki/Install
 ### Install Python Requirements
 
 ```bash
-pip2 install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ### Install Graphviz
 
 #### Windows 
-Install Graphviz msi:
+Install Graphviz:
 ```bash
-https://graphviz.gitlab.io/_pages/Download/Download_windows.html
+https://graphviz.gitlab.io/download/#windows
 ```
 Add "dot.exe" to PATH env variable or just:
 
@@ -94,16 +94,18 @@ optional arguments:
 
 ```
 ### Usage Examples (All Platforms)
-Only Python 2 is supported:
+Please note that a Python 2 release is availiable in the Releases section, but is no longer supported.
+
+
 ```bash
 # Generate call graph directly from an Office file with macros [tnx @doomedraven]
-python2 vba2graph.py -f malicious.doc -c 2    
+python3 vba2graph.py -f malicious.doc -c 2    
 
 # Generate vba code using olevba then pipe it to vba2graph
-olevba malicious.doc | python2 vba2graph.py -c 1
+olevba3 malicious.doc | python3 vba2graph.py -c 1
 
 # Generate call graph from VBA code
-python2 vba2graph.py -i vba_code.bas -o output_folder
+python3 vba2graph.py -i vba_code.bas -o output_folder
 
 ```
 
